@@ -1,8 +1,12 @@
-<IfModule mod_rewrite.c>
+#<IfModule mod_rewrite.c>
+#RewriteEngine On
+#RewriteCond %{HTTPS} !=on
+#RewriteCond %{HTTP_HOST} !^www\. [NC]
+#RewriteCond %{SERVER_ADDR} !=127.0.0.1
+#RewriteCond %{SERVER_ADDR} !=::1
+#RewriteRule ^ http://www.%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+#</IfModule>
+
 RewriteEngine On
-RewriteCond %{HTTPS} !=on
-RewriteCond %{HTTP_HOST} !^www\. [NC]
-RewriteCond %{SERVER_ADDR} !=127.0.0.1
-RewriteCond %{SERVER_ADDR} !=::1
-RewriteRule ^ http://www.%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
-</IfModule>
+RewriteCond %{HTTP_HOST} !^www\.
+RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]
